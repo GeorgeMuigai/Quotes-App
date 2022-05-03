@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView rv_quotes;
-    List<QuotesModal> quotesList;
+    List<QuotesModal> quotesList = new ArrayList<>();
     QuotesAdapter adapter;
 
     @Override
@@ -34,10 +35,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new QuotesAdapter(quotesList);
         rv_quotes.setAdapter(adapter);
 
-        retrofitClient();
-    }
-
-    private void retrofitClient() {
+        // Retrofit CLient
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://quotable.io/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         quotes.enqueue(new Callback<List<QuotesModal>>() {
             @Override
             public void onResponse(Call<List<QuotesModal>> call, Response<List<QuotesModal>> response) {
-                if(!response.isSuccessful())
+                if(!response.isSuccessful() && response.body() != null)
                 {
                     Toast.makeText(MainActivity.this, "We encountered an Error when loading data", Toast.LENGTH_SHORT).show();
                     return;
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<QuotesModal>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
