@@ -7,5 +7,5 @@ import retrofit2.http.GET;
 
 public interface QuotesAPI {
     @GET("quotes")
-    Call<List<QuotesModal>> getQuotes();
+    Call<List<ResultsModal>> getQuotes();
 }

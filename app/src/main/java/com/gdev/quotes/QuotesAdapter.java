@@ -12,9 +12,9 @@ import java.util.List;
 
 public class QuotesAdapter extends RecyclerView.Adapter<QuotesAdapter.QuotesViewHolder> {
 
-    List<QuotesModal> quotesList;
+    List<ResultsModal> quotesList;
 
-    public QuotesAdapter(List<QuotesModal> quotesList) {
+    public QuotesAdapter(List<ResultsModal> quotesList) {
         this.quotesList = quotesList;
     }
 
