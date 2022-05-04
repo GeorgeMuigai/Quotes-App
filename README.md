@@ -1,2 +1,2 @@
 # Quotes-App
-Using Quotable Api
+Using typefit Api
