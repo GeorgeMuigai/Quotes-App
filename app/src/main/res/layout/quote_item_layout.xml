@@ -32,6 +32,17 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/btn_copy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="copy"
+            android:textSize="15sp"
+            android:textAllCaps="false"
+            android:layout_below="@+id/author"
+            android:layout_centerHorizontal="true"
+            android:background="#ff003e"/>
+
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

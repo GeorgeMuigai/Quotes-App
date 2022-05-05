@@ -1,16 +1,16 @@
 package com.gdev.quotes;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,11 +24,14 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rv_quotes;
     List<ResultsModal> quotesList;
     QuotesAdapter adapter;
+    ProgressBar progressBar;
+    TextView txt_loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         quotesList = new ArrayList<>();
 
@@ -36,8 +39,11 @@ public class MainActivity extends AppCompatActivity {
         rv_quotes.setHasFixedSize(true);
         rv_quotes.setLayoutManager(new LinearLayoutManager(this));
 
+        progressBar = findViewById(R.id.progress_circular);
+        txt_loading = findViewById(R.id.txt_loading);
+
         // adding the adapter
-        adapter = new QuotesAdapter(quotesList);
+        adapter = new QuotesAdapter(quotesList, this);
         rv_quotes.setAdapter(adapter);
 
         // Retrofit Client
@@ -53,13 +59,16 @@ public class MainActivity extends AppCompatActivity {
         quotes.enqueue(new Callback<List<ResultsModal>>() {
             @Override
             public void onResponse(Call<List<ResultsModal>> call, Response<List<ResultsModal>> response) {
-                if(!response.isSuccessful())
-                {
+                if (!response.isSuccessful()) {
                     Toast.makeText(MainActivity.this, "Error code : " + response.code(), Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.GONE);
+                    txt_loading.setVisibility(View.GONE);
                     return;
                 }
                 quotesList.addAll(response.body());
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+                txt_loading.setVisibility(View.GONE);
             }
 
             @Override
@@ -70,4 +79,5 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
 }
